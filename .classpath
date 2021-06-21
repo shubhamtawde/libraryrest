@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="D:/jerseyjars/osgi-resource-locator-1.0.1.jar"/>
 	<classpathentry kind="lib" path="D:/jerseyjars/persistence-api-1.0.jar"/>
 	<classpathentry kind="lib" path="D:/jerseyjars/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/jerseyjars/mysql-connector-java-8.0.11.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -36,5 +36,22 @@ public class DatabaseConnection
 		//return the database connection to the calling class
 		return dbConnection;
 	}
+
+	public void closeConnection(Connection dbConnection) throws SQLException 
+	{
+		try 
+		{
+			if(dbConnection != null)
+			{
+				dbConnection.close();
+			}
+		} 
+		catch (SQLException sqlExp)
+		{
+			System.out.println("Error Description: " + sqlExp.getMessage());
+			sqlExp.printStackTrace();
+			throw sqlExp;
+		}
+	}
 }
 

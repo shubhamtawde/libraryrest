@@ -3,7 +3,7 @@ package com.library.dto;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class BookInfo 
+public class BookIssueInfo
 {
 	private int bookId;
 	private String bookName;
@@ -16,10 +16,10 @@ public class BookInfo
 	public void setBookId(int bookId) {
 		this.bookId = bookId;
 	}
-	public String getBookName() {
+	public String getbookName() {
 		return bookName;
 	}
-	public void setBookName(String bookName) {
+	public void setbookName(String bookName) {
 		this.bookName = bookName;
 	}
 	public String getBookAuthor() {

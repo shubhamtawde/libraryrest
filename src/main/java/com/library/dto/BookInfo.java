@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class BookInfo 
 {
 	private int bookId;
-	private String bookTitle;
+	private String bookName;
 	private String bookAuthor;
 	private int bookQty;
 	
@@ -16,11 +16,11 @@ public class BookInfo
 	public void setBookId(int bookId) {
 		this.bookId = bookId;
 	}
-	public String getBookTitle() {
-		return bookTitle;
+	public String getBookName() {
+		return bookName;
 	}
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 	public String getBookAuthor() {
 		return bookAuthor;

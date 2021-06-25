@@ -50,7 +50,7 @@ public class LibraryService
 		{
 			exp.printStackTrace();
 			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
-			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+			bookResponse.setErrorMessage("Generic Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
 		}
 		return bookResponse;
 	}

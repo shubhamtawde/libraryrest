@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 @XmlRootElement
 public class BookResponse
 {
@@ -13,6 +12,22 @@ public class BookResponse
 	private String resultMessage;
 	private ArrayList<BookInfo> book;
 	private ArrayList<BookIssueInfo> issueBook;
+	
+	
+
+	public BookResponse() {
+		super();
+	}
+
+	public BookResponse(int errorCode, String errorMessage, String resultMessage, ArrayList<BookInfo> book,
+			ArrayList<BookIssueInfo> issueBook) {
+		super();
+		this.errorCode = errorCode;
+		this.errorMessage = errorMessage;
+		this.resultMessage = resultMessage;
+		this.book = book;
+		this.issueBook = issueBook;
+	}
 
 	public String getErrorMessage() {
 		return errorMessage;
@@ -38,13 +53,6 @@ public class BookResponse
 		this.errorCode = errorCode;
 	}
 
-	@Override
-	public String toString() {
-		return "BookResponse [errorCode=" + errorCode + ", errorMessage=" + errorMessage + ", resultMessage="
-				+ resultMessage + ", book=" + book + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
-	}
-
 	public String getResultMessage() {
 		return resultMessage;
 	}
@@ -60,5 +68,13 @@ public class BookResponse
 	public void setIssueBook(ArrayList<BookIssueInfo> issueBook) {
 		this.issueBook = issueBook;
 	}
+
+	@Override
+	public String toString() {
+		return "BookResponse [errorCode=" + errorCode + ", errorMessage=" + errorMessage + ", resultMessage="
+				+ resultMessage + ", book=" + book + ", issueBook=" + issueBook + "]";
+	}
+
+	
 	
 }

@@ -10,6 +10,17 @@ public class BookInfo
 	private String bookAuthor;
 	private int bookQty;
 	
+	public BookInfo() {
+		
+	}
+	
+	public BookInfo(int bookId, String bookName, String bookAuthor, int bookQty) {
+		this.bookId = bookId;
+		this.bookName = bookName;
+		this.bookAuthor = bookAuthor;
+		this.bookQty = bookQty;
+	}
+
 	public int getBookId() {
 		return bookId;
 	}

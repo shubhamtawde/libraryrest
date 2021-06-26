@@ -38,7 +38,14 @@ public class LibraryService
 			bookResponse = libraryServiceExt.getBooks();
 			if(bookResponse.getErrorCode() == 0)
 			{
-				bookResponse.setResultMessage("Retrieved Books Successfully");
+				if(bookResponse.getBook().isEmpty())
+				{
+					bookResponse.setResultMessage("No data found in the database");
+				}
+				else
+				{
+					bookResponse.setResultMessage("Retrieved Books Successfully");
+				}
 			}
 		}
 		catch(SQLException sqlExp)

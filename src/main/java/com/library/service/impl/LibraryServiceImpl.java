@@ -121,4 +121,101 @@ public class LibraryServiceImpl
 		return bookResponse;
 	}
 
+	public BookResponse addBook(BookInfo bookData) throws Exception 
+	{
+		DatabaseConnection databaseConnection = new DatabaseConnection();
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		ResultSet dbResult = null;
+		Connection dbConn = null;
+		PreparedStatement sqlStatement = null;
+		SqlQueries sqlQuery = new SqlQueries();
+		
+		try
+		{
+			dbConn = databaseConnection.getConnection();
+			if(dbConn != null)
+			{
+				dbConn.setAutoCommit(false);
+				sqlStatement = dbConn.prepareStatement(sqlQuery.ADD_BOOK);
+				sqlStatement.setInt(1, bookData.getBookId());
+				sqlStatement.setString(2, bookData.getBookName());
+				sqlStatement.setString(3, bookData.getBookAuthor());
+				sqlStatement.setInt(4, bookData.getBookQty());
+				if(sqlStatement.executeUpdate() > 0)
+				{
+					bookResponse.setResultMessage("Added Book " + bookData.getBookName() + " successfully!");
+					dbConn.commit();
+				}
+				else
+				{
+					throw new SQLException();
+				}
+			}
+			else
+			{
+				throw new SQLException();
+			}
+		}
+		catch(SQLException sqlExp)
+		{
+			//rollback the connection
+			dbConn.rollback();
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			if(sqlExp.getMessage().contains("Duplicate"))
+			{
+				bookResponse.setErrorMessage("Book with Book ID: " + bookData.getBookId() + " already exists, enter different data");
+			}
+			else
+			{
+				bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+			}
+			throw sqlExp;
+		}
+		catch(Exception exp)
+		{
+			dbConn.rollback();
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("Generic Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+			throw exp;
+		}
+		
+		finally
+    	{
+    		if(sqlStatement != null)
+    		{
+    			try
+    			{
+	    			if(!sqlStatement.isClosed())
+	    				sqlStatement.close();
+    			}
+    			catch(SQLException err)
+    			{
+    				err.printStackTrace();
+    				bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+    				bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + err.getMessage());
+    				throw err;
+    			}
+    		}
+    		if(dbConn != null)
+    		{
+    			try
+    			{
+	    			if(!dbConn.isClosed())
+	    				databaseConnection.closeConnection(dbConn);
+    			}
+    			catch(SQLException err)
+    			{
+    				err.printStackTrace();
+    				bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+    				bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + err.getMessage());
+    				throw err;
+    			}
+    		}
+    	}
+		return bookResponse;
+	}
+
 }

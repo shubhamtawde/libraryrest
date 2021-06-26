@@ -19,6 +19,7 @@ public class LibraryService
 {
 	@GET
 	@Path("test")
+	@Produces(MediaType.APPLICATION_JSON)
 	public String testMethod()
 	{
 		return "API is working as expected";

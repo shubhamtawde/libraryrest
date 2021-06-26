@@ -15,7 +15,7 @@ import com.library.sql.SqlQueries;
 public class LibraryServiceImpl 
 {
 
-	public BookResponse getBooks() throws SQLException 
+	public BookResponse getBooks() throws Exception 
 	{
 		DatabaseConnection databaseConnection = new DatabaseConnection();
 		ArrayList<BookInfo> bookData = new ArrayList<BookInfo>();
@@ -118,7 +118,7 @@ public class LibraryServiceImpl
     			}
     		}
     	}
-		return null;
+		return bookResponse;
 	}
 
 }

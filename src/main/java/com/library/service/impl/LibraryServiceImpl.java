@@ -218,4 +218,9 @@ public class LibraryServiceImpl
 		return bookResponse;
 	}
 
+	public BookResponse deleteBook(String bookName) 
+	{
+		
+	}
+
 }

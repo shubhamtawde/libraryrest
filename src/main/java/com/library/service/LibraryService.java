@@ -102,19 +102,19 @@ public class LibraryService
 	}
 	
 	@DELETE
-	@Path("deleteBook/{bookName}")
+	@Path("deleteBook/{bookId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public BookResponse deleteBook(@PathParam("bookName") String bookName)
+	public BookResponse deleteBook(@PathParam("bookId") int bookId)
 	{
 		LibraryServiceExt libraryServiceExt = new LibraryServiceExt();
 		BookResponse bookResponse = new BookResponse();
 		BookErrorConstants errorConstants = new BookErrorConstants();
 		try
 		{
-			bookResponse = libraryServiceExt.deleteBook(bookName);
+			bookResponse = libraryServiceExt.deleteBook(bookId);
 			if(bookResponse.getErrorCode() == 0)
 			{
-				bookResponse.setResultMessage(bookName + " Deleted Successfully!");
+				bookResponse.setResultMessage("Book with Book ID: " + bookId + " Deleted Successfully!");
 			}
 		}
 		catch(SQLException sqlExp)

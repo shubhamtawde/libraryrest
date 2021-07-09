@@ -86,28 +86,23 @@ public class LibraryServiceExt
 		return bookResponse;
 	}
 
-	public BookResponse deleteBook(String bookName) 
+	public BookResponse deleteBook(int bookId) 
 	{
 		BookResponse bookResponse = new BookResponse();
 		BookErrorConstants errorConstants = new BookErrorConstants();
 		LibraryServiceImpl libraryServiceImpl = new LibraryServiceImpl();
 		Validation validationCheck = new Validation();
 		
-		//checks for validation whether object passed is empty or not
-		if(!validationCheck.checkChar(bookName))
+		//checks for validation whether object passed is valid or not
+		if(bookId <= 0)
 		{
-			bookResponse.setErrorCode(errorConstants.NO_CHAR_PRESENT);
-			bookResponse.setErrorMessage("Enter Alphabets only");
-		}
-		if(bookName.isEmpty())
-		{
-			bookResponse.setErrorCode(errorConstants.IS_EMPTY_FIELD);
-			bookResponse.setErrorMessage("Book Name cannot be empty!");
+			bookResponse.setErrorCode(errorConstants.IS_INVALID_NUMBER);
+			bookResponse.setErrorMessage("Enter valid numbers");
 		}
 		
 		try
 		{
-			bookResponse = libraryServiceImpl.deleteBook(bookName);
+			bookResponse = libraryServiceImpl.deleteBook(bookId);
 		}
 		catch(SQLException sqlExp)
 		{

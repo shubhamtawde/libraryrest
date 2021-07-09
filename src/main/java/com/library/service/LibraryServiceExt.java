@@ -86,7 +86,7 @@ public class LibraryServiceExt
 		return bookResponse;
 	}
 
-	public BookResponse deleteBook(int bookId) 
+	public BookResponse deleteBook(int bookId) throws SQLException 
 	{
 		BookResponse bookResponse = new BookResponse();
 		BookErrorConstants errorConstants = new BookErrorConstants();

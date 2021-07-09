@@ -6,5 +6,5 @@ public class SqlQueries
 	
 	public static final String ADD_BOOK = "INSERT INTO book_info" + " VALUES " + " (?, ?, ?, ?);";
 	
-	public static final String DELETE_BOOK = "INSERT INTO book_info" + " VALUES " + " (?, ?, ?, ?);";
+	public static final String DELETE_BOOK = "DELETE FROM book_info WHERE book_id = ?;";
 }

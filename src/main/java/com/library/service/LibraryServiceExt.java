@@ -120,4 +120,38 @@ public class LibraryServiceExt
 		return bookResponse;
 	}
 
+	public BookResponse issueBook(int bookId) throws SQLException 
+	{
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		LibraryServiceImpl libraryServiceImpl = new LibraryServiceImpl();
+		Validation validationCheck = new Validation();
+		
+		//checks for validation whether object passed is valid or not
+		if(bookId <= 0)
+		{
+			bookResponse.setErrorCode(errorConstants.IS_INVALID_NUMBER);
+			bookResponse.setErrorMessage("Enter valid numbers");
+		}
+		
+		try
+		{
+			bookResponse = libraryServiceImpl.issueBook(bookId);
+		}
+		catch(SQLException sqlExp)
+		{
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+			throw sqlExp;
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+		}
+		return bookResponse;
+	}
+
 }

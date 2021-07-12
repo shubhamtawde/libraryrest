@@ -146,7 +146,7 @@ public class LibraryService
 			bookResponse = libraryServiceExt.issueBook(bookId);
 			if(bookResponse.getErrorCode() == 0)
 			{
-				bookResponse.setResultMessage("Book with Book ID: " + bookId + " Deleted Successfully!");
+				bookResponse.setResultMessage("Book with Book ID: " + bookId + " Issued Successfully!");
 			}
 		}
 		catch(SQLException sqlExp)

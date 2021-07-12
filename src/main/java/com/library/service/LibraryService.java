@@ -5,6 +5,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -132,4 +133,34 @@ public class LibraryService
 		return bookResponse;
 	}
 	
+	@PUT
+	@Path("issueBook/{bookId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public BookResponse issueBook(@PathParam("bookId") int bookId)
+	{
+		LibraryServiceExt libraryServiceExt = new LibraryServiceExt();
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		try
+		{
+			bookResponse = libraryServiceExt.issueBook(bookId);
+			if(bookResponse.getErrorCode() == 0)
+			{
+				bookResponse.setResultMessage("Book with Book ID: " + bookId + " Deleted Successfully!");
+			}
+		}
+		catch(SQLException sqlExp)
+		{
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("Generic Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+		}
+		return bookResponse;
+	}
 }

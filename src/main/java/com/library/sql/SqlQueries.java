@@ -9,4 +9,6 @@ public class SqlQueries
 	public static final String DELETE_BOOK = "DELETE FROM book_info WHERE book_id = ?;";
 	
 	public static final String UPDATE_BOOK = "UPDATE book_info SET qty = qty - 1 WHERE (book_id = ? AND qty > 0);";
+	
+	public static final String SEARCH_BOOK_NAME = "SELECT * FROM book_info WHERE book_name LIKE ?;";
 }

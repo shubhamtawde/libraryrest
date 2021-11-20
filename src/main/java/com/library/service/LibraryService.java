@@ -163,4 +163,80 @@ public class LibraryService
 		}
 		return bookResponse;
 	}
+	
+	@GET
+	@Path("searchBook/name/{bookName}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public BookResponse searchBookName(@PathParam("bookName") String bookName)
+	{
+		LibraryServiceExt libraryServiceExt = new LibraryServiceExt();
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		try
+		{
+			bookResponse = libraryServiceExt.searchBook(bookName,"name");
+			if(bookResponse.getErrorCode() == 0)
+			{
+				if(bookResponse.getBook().isEmpty())
+				{
+					bookResponse.setResultMessage("No data found in the database");
+				}
+				else
+				{
+					bookResponse.setResultMessage("Books retrieved Successfully!");
+				}
+			}
+		}
+		catch(SQLException sqlExp)
+		{
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("Generic Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+		}
+		return bookResponse;
+	}
+	
+	@GET
+	@Path("searchBook/author/{bookAuthor}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public BookResponse searchBookAuthor(@PathParam("bookAuthor") String bookAuthor)
+	{
+		LibraryServiceExt libraryServiceExt = new LibraryServiceExt();
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		try
+		{
+			bookResponse = libraryServiceExt.searchBook(bookAuthor,"author");
+			if(bookResponse.getErrorCode() == 0)
+			{
+				if(bookResponse.getBook().isEmpty())
+				{
+					bookResponse.setResultMessage("No data found in the database");
+				}
+				else
+				{
+					bookResponse.setResultMessage("Books retrieved Successfully!");
+				}
+			}
+		}
+		catch(SQLException sqlExp)
+		{
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("Generic Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+		}
+		return bookResponse;
+	}
 }

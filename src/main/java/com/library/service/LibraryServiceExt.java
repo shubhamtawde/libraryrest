@@ -154,4 +154,42 @@ public class LibraryServiceExt
 		return bookResponse;
 	}
 
+	public BookResponse searchBook(String bookDetail, String typeOfSearch) 
+	{
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		LibraryServiceImpl libraryServiceImpl = new LibraryServiceImpl();
+		Validation validationCheck = new Validation();
+		
+		//checks for validation whether object passed is valid or not
+		if(!validationCheck.checkChar(bookDetail))
+		{
+			bookResponse.setErrorCode(errorConstants.NO_CHAR_PRESENT);
+			bookResponse.setErrorMessage("Enter Alphabets only");
+		}
+		if(bookDetail.isEmpty())
+		{
+			bookResponse.setErrorCode(errorConstants.IS_EMPTY_FIELD);
+			bookResponse.setErrorMessage("Book Name/Author cannot be empty!");
+		}		
+		try
+		{
+			bookResponse = libraryServiceImpl.searchBook(bookDetail, typeOfSearch);
+		}
+		catch(SQLException sqlExp)
+		{
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+			throw sqlExp;
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+		}
+		return bookResponse;
+	}
+
 }

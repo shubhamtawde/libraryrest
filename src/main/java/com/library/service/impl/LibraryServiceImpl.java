@@ -388,4 +388,112 @@ public class LibraryServiceImpl
     	}
     return bookResponse;
 	}
+
+	public BookResponse searchBook(String bookDetail, String typeOfSearch) throws Exception 
+	{
+		DatabaseConnection databaseConnection = new DatabaseConnection();
+		ArrayList<BookInfo> bookData = new ArrayList<BookInfo>();
+		BookResponse bookResponse = new BookResponse();
+		BookErrorConstants errorConstants = new BookErrorConstants();
+		ResultSet dbResult = null;
+		Connection dbConn = null;
+		PreparedStatement sqlStatement = null;
+		SqlQueries sqlQuery = new SqlQueries();
+		try
+		{
+			dbConn = databaseConnection.getConnection();
+			if(dbConn != null)
+			{
+				if(typeOfSearch.equals("name"))
+					sqlStatement = dbConn.prepareStatement(sqlQuery.SEARCH_BOOK_NAME);
+				else if(typeOfSearch.equals("author"))
+				dbResult = sqlStatement.executeQuery();
+				if(dbResult == null)
+				{
+					bookResponse.setResultMessage("No Books Found");
+				}
+				else
+				{
+					while(dbResult.next())
+					{
+						BookInfo bookDTO = new BookInfo();
+						bookDTO.setBookId(dbResult.getInt(1));
+						bookDTO.setBookName(dbResult.getString(2));
+						bookDTO.setBookAuthor(dbResult.getString(3));
+						bookDTO.setBookQty(dbResult.getInt(4));
+						bookData.add(bookDTO);
+					}
+					bookResponse.setResultMessage("Retrieved Books Successfully");
+					bookResponse.setBook(bookData);
+				}
+			}
+			else
+			{
+				throw new SQLException();
+			}
+		}
+		catch(SQLException sqlExp)
+		{
+			sqlExp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + sqlExp.getMessage());
+			throw sqlExp;
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			bookResponse.setErrorCode(errorConstants.GENERIC_EXP_ERROR_CODE);
+			bookResponse.setErrorMessage("Generic Exception in Class: " + getClass() + "\nCaused By: " + exp.getMessage());
+			throw exp;
+		}
+		finally
+    	{
+    		if(dbResult != null)
+    		{
+    			try
+    			{
+	    			if(!dbResult.isClosed())
+	    				dbResult.close();
+    			}
+    			catch(SQLException err)
+    			{
+    				err.printStackTrace();
+    				bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+    				bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + err.getMessage());
+    				throw err;
+    			}
+    		}
+    		if(sqlStatement != null)
+    		{
+    			try
+    			{
+	    			if(!sqlStatement.isClosed())
+	    				sqlStatement.close();
+    			}
+    			catch(SQLException err)
+    			{
+    				err.printStackTrace();
+    				bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+    				bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + err.getMessage());
+    				throw err;
+    			}
+    		}
+    		if(dbConn != null)
+    		{
+    			try
+    			{
+	    			if(!dbConn.isClosed())
+	    				databaseConnection.closeConnection(dbConn);
+    			}
+    			catch(SQLException err)
+    			{
+    				err.printStackTrace();
+    				bookResponse.setErrorCode(errorConstants.SQL_EXP_ERROR_CODE);
+    				bookResponse.setErrorMessage("SQL Exception in Class: " + getClass() + "\nCaused By: " + err.getMessage());
+    				throw err;
+    			}
+    		}
+    	}
+		return bookResponse;
+	}
 }
